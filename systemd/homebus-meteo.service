@@ -1,0 +1,17 @@
+[Unit]
+Description=HomeBus Meteobridge publisher
+After=network.target
+
+[Service]
+Type=simple
+
+User=homebus
+WorkingDirectory=/home/homebus/homebus-meteo
+
+ExecStart=/home/homebus/.rbenv/bin/rbenv exec bundle exec puma -p 9394 meteo.ru
+
+TimeoutSec=30
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
