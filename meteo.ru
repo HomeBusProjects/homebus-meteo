@@ -34,12 +34,14 @@ class MeteoWebhook < Sinatra::Base
     if params['indoor_temperature'] != '--'
       indoor_data = {
         id: indoor[:uuid],
-        environment: {
+        timestamp: Time.now.to_i
+      }
+
+      indoor_data[DDC_INDOOR] = {
           temperature: params['indoor_temperature'].to_f,
           humidity: params['indoor_humidity'].to_f,
           pressure: params['pressure'].to_f
-        },
-        timestamp: Time.now.to_i
+        }
       }
 
       pp '>> indoor ', indoor_data
