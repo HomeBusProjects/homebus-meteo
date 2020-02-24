@@ -30,7 +30,7 @@ provision_request = {
                index: 0,
                accuracy: 0,
                precision: 0,
-               wo_topics: [ 'temperature', 'pressure', 'hunmidity' ],
+               wo_topics: [ 'org.homebus.experimental.weather', 'org.homebus.experimental.air' ],
                ro_topics: [],
                rw_topics: []
              }

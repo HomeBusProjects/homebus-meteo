@@ -5,6 +5,9 @@ require 'pp'
 require 'json'
 
 class MeteoWebhook < Sinatra::Base
+  DDC_WEATHER = 'org.homebus.experimental.weather'
+  DDC_INDOOR = 'org.homebus.experimental.air-sensor'
+
   CONFIG_FILE='.meteo.json'
 
   homebus_config = []
@@ -40,7 +43,7 @@ class MeteoWebhook < Sinatra::Base
       }
 
       pp '>> indoor ', indoor_data
-      indoor[:mqtt].publish "/homebus/device/#{indoor[:uuid]}",
+      indoor[:mqtt].publish "homebus/device/#{indoor[:uuid]}/#{DDC_INDOOR}",
                             JSON.generate(indoor_data),
                             true
     else
@@ -49,27 +52,29 @@ class MeteoWebhook < Sinatra::Base
         timestamp: Time.now.to_i
       }
 
-      indoor[:mqtt].publish "/homebus/device/#{indoor[:uuid]}/$error",
+      indoor[:mqtt].publish "homebus/device/#{indoor[:uuid]}/$error",
                             JSON.generate(msg)
     end
 
     if params['outdoor_temperature'] != '--'
       outdoor_data = {
         id: outdoor[:uuid],
-        weather: {
-          temperature: params['outdoor_temperature'].to_f,
-          humidity: params['outdoor_humidity'].to_f,
-          pressure: params['pressure'].to_f,
-          rain_total: params['rain_total'].to_f,
-          rain_rate: params['rain_rate'].to_f,
-          wind_average: params['wind_average'].to_f,
-          wind_direction: params['wind_direction'].to_f
-        },
         timestamp: Time.now.to_i
       }
 
+      outdoor_data[DDC_WEATHER] = {
+        temperature: params['outdoor_temperature'].to_f,
+        humidity: params['outdoor_humidity'].to_f,
+        pressure: params['pressure'].to_f,
+        rain_total: params['rain_total'].to_f,
+        rain_rate: params['rain_rate'].to_f,
+        wind_average: params['wind_average'].to_f,
+        wind_direction: params['wind_direction'].to_f
+        }
+
+
       pp '>> outdoor', outdoor_data
-      outdoor[:mqtt].publish "/homebus/device/#{outdoor[:uuid]}",
+      outdoor[:mqtt].publish "homebus/device/#{outdoor[:uuid]}/#{DDC_WEATHER}",
                              JSON.generate(outdoor_data),
                              true
     else
