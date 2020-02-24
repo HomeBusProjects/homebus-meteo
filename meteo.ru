@@ -41,7 +41,6 @@ class MeteoWebhook < Sinatra::Base
           temperature: params['indoor_temperature'].to_f,
           humidity: params['indoor_humidity'].to_f,
           pressure: params['pressure'].to_f
-        }
       }
 
       pp '>> indoor ', indoor_data
