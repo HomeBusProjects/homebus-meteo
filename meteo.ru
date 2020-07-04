@@ -33,14 +33,15 @@ class MeteoWebhook < Sinatra::Base
 
     if params['indoor_temperature'] != '--'
       indoor_data = {
-        id: indoor[:uuid],
-        timestamp: Time.now.to_i
-      }
-
-      indoor_data[DDC_INDOOR] = {
-          temperature: params['indoor_temperature'].to_f,
-          humidity: params['indoor_humidity'].to_f,
-          pressure: params['pressure'].to_f
+        source: indoor[:uuid],
+        timestamp: Time.now.to_i,
+        contents: {
+          ddc: DDC_INDOOR,
+          payload:  {
+            temperature: params['indoor_temperature'].to_f,
+            humidity: params['indoor_humidity'].to_f,
+            pressure: params['pressure'].to_f
+          }
       }
 
       pp '>> indoor ', indoor_data
@@ -59,20 +60,21 @@ class MeteoWebhook < Sinatra::Base
 
     if params['outdoor_temperature'] != '--'
       outdoor_data = {
-        id: outdoor[:uuid],
-        timestamp: Time.now.to_i
-      }
-
-      outdoor_data[DDC_WEATHER] = {
-        temperature: params['outdoor_temperature'].to_f,
-        humidity: params['outdoor_humidity'].to_f,
-        pressure: params['pressure'].to_f,
-        rain_total: params['rain_total'].to_f,
-        rain_rate: params['rain_rate'].to_f,
-        wind_average: params['wind_average'].to_f,
-        wind_direction: params['wind_direction'].to_f
+        source: outdoor[:uuid],
+        timestamp: Time.now.to_i,
+        contents: {
+          ddc: DDC_WEATHER,
+          payload: {
+            temperature: params['outdoor_temperature'].to_f,
+            humidity: params['outdoor_humidity'].to_f,
+            pressure: params['pressure'].to_f,
+            rain_total: params['rain_total'].to_f,
+            rain_rate: params['rain_rate'].to_f,
+            wind_average: params['wind_average'].to_f,
+            wind_direction: params['wind_direction'].to_f
+          }
         }
-
+      }
 
       pp '>> outdoor', outdoor_data
       outdoor[:mqtt].publish "homebus/device/#{outdoor[:uuid]}/#{DDC_WEATHER}",
