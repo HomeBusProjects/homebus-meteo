@@ -19,8 +19,6 @@ class MeteoWebhook < Sinatra::Base
     abort "no config file"
   end
 
-  pp homebus_config
-
   # separate MQTT connections because each is only authorized to publish to its own UUID
   indoor = homebus_config[:indoor_auth]
   indoor[:mqtt] = MQTT::Client.connect(indoor[:mqtt_server], port: indoor[:mqtt_port], username: indoor[:mqtt_username], password: indoor[:mqtt_password])
@@ -29,8 +27,6 @@ class MeteoWebhook < Sinatra::Base
   outdoor[:mqtt] = MQTT::Client.connect(outdoor[:mqtt_server], port: outdoor[:mqtt_port], username: outdoor[:mqtt_username], password: outdoor[:mqtt_password])
 
   get '/' do
-    pp params
-
     if params['indoor_temperature'] != '--'
       indoor_data = {
         source: indoor[:uuid],
@@ -44,7 +40,6 @@ class MeteoWebhook < Sinatra::Base
           }
       }
 
-      pp '>> indoor ', indoor_data
       indoor[:mqtt].publish "homebus/device/#{indoor[:uuid]}/#{DDC_INDOOR}",
                             JSON.generate(indoor_data),
                             true
@@ -76,7 +71,6 @@ class MeteoWebhook < Sinatra::Base
         }
       }
 
-      pp '>> outdoor', outdoor_data
       outdoor[:mqtt].publish "homebus/device/#{outdoor[:uuid]}/#{DDC_WEATHER}",
                              JSON.generate(outdoor_data),
                              true
