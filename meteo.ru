@@ -38,6 +38,7 @@ class MeteoWebhook < Sinatra::Base
             humidity: params['indoor_humidity'].to_f,
             pressure: params['pressure'].to_f
           }
+        }
       }
 
       indoor[:mqtt].publish "homebus/device/#{indoor[:uuid]}/#{DDC_INDOOR}",
