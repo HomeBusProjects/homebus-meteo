@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra'
+gem 'sinatra', '~> 2.2.0'
 gem 'puma'
 gem 'mqtt'
 gem 'homebus', git: 'https://github.com/HomeBusProjects/ruby-homebus'
