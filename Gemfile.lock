@@ -8,31 +8,32 @@ GIT
 
 GIT
   remote: https://github.com/HomeBusProjects/ruby-homebus
-  revision: 507710f5b9892f8726eaebc9c7c4d97a8b05f96d
+  revision: c231072e715e142c3cd17fd25d42ecd04b0a3397
   specs:
-    homebus (0.22.0)
-      mqtt (~> 0.5.0)
+    homebus (0.40.1)
+      paho-mqtt (~> 1.0.12)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    dotenv (2.7.6)
+    dotenv (2.8.1)
     mqtt (0.5.0)
-    mustermann (1.1.1)
+    mustermann (2.0.2)
       ruby2_keywords (~> 0.0.1)
     nio4r (2.5.8)
-    puma (5.6.4)
+    paho-mqtt (1.0.12)
+    puma (6.0.0)
       nio4r (~> 2.0)
-    rack (2.2.3.1)
-    rack-protection (2.2.0)
+    rack (2.2.4)
+    rack-protection (2.2.3)
       rack
     ruby2_keywords (0.0.5)
-    sinatra (2.2.0)
-      mustermann (~> 1.0)
+    sinatra (2.2.3)
+      mustermann (~> 2.0)
       rack (~> 2.2)
-      rack-protection (= 2.2.0)
+      rack-protection (= 2.2.3)
       tilt (~> 2.0)
-    tilt (2.0.10)
+    tilt (2.0.11)
 
 PLATFORMS
   arm64-darwin-21
@@ -46,4 +47,4 @@ DEPENDENCIES
   sinatra (~> 2.2.0)
 
 BUNDLED WITH
-   2.3.7
+   2.3.20
